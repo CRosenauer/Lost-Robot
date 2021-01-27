@@ -1,4 +1,4 @@
 extends Node
 
 
-enum LocomotionStates {Grounded, Jump, DoubleJump, WallJump, PreWallJump, Damage, Run, AirDash, Grappling}
+enum LocomotionStates {Grounded, Jump, WallJump, PreWallJump, Damage, Run, AirDash, Grappling}

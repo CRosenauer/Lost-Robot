@@ -11,7 +11,8 @@ func _physics_process(_delta):
 	$Components/InputComponent.QueryInputs()
 	
 	var inputs = $Components/InputComponent.GetInputs()
-	
+	var edges  = $Components/InputComponent.GetEdges()
+	$LocomotionStateMachine.RecieveInputs(inputs, edges)
 	m_velocity.x = inputs[1]
 	move_and_slide(m_velocity * MoveSpeed, PHYSICS.UP)
 	
