@@ -16,7 +16,7 @@ func QueryInputs():
 		m_inputArray[INPUTS.Input_Down] -= 1
 	
 	if(Input.is_action_pressed("InputRight")):
-		m_inputArray[INPUTS.Input_Left] += 1
+		m_inputArray[INPUTS.Input_Right] += 1
 	if(Input.is_action_pressed("InputLeft")):
 		m_inputArray[INPUTS.Input_Right] -= 1
 	
@@ -26,7 +26,7 @@ func QueryInputs():
 	InterpretAction(INPUTS.Input_Dash, "InputDash")
 
 func ClearInputs():
-	for i in range(0, INPUTS.__SIZE__):
+	for i in range(0, m_inputArray.size()):
 		m_inputArray[i] = 0
 		m_edgeArray[i]  = 0
 
