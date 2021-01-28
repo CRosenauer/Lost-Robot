@@ -29,13 +29,15 @@ func _physics_process(_delta):
 	
 	move_and_slide(m_velocity * MoveSpeed, PHYSICS.UP)
 	
-	if(is_on_floor() != m_wasOnFloor):
-		m_wasOnFloor = !m_wasOnFloor
-		$LocomotionStateMachine.OnIsOnFloor(m_wasOnFloor)
 	
 	if(is_on_wall() != m_wasOnWall):
 		m_wasOnWall = !m_wasOnWall
 		$LocomotionStateMachine.OnIsOnWall(m_wasOnWall)
+	
+	if(is_on_floor() != m_wasOnFloor):
+		m_wasOnFloor = !m_wasOnFloor
+		$LocomotionStateMachine.OnIsOnFloor(m_wasOnFloor)
+	
 	
 	if(m_wasOnFloor):
 		m_velocity.y = 0.01
