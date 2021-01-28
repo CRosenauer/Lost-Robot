@@ -38,6 +38,8 @@ func _physics_process(_delta):
 		m_wasOnFloor = !m_wasOnFloor
 		$LocomotionStateMachine.OnIsOnFloor(m_wasOnFloor)
 	
+	if(is_on_ceiling()):
+		m_velocity.y = 0
 	
 	if(m_wasOnFloor):
 		m_velocity.y = 0.01
