@@ -16,7 +16,7 @@ export var MoveSpeed    = 250
 export var MaxFallSpeed = 100
 export var RunSpeed     = 0
 export var AirDashVelocity  = Vector2(3, -1) #WARNING: Will be multiplied by MoveSpeed
-export var WallJumpVelocity = Vector2(2, -3) # ^^^
+export var WallJumpVelocity = Vector2(2, -3.5) # ^^^
 
 var m_inputs
 
@@ -50,6 +50,8 @@ func _physics_process(_delta):
 	if(is_on_wall() != m_wasOnWall):
 		m_wasOnWall = !m_wasOnWall
 		$LocomotionStateMachine.OnIsOnWall(m_wasOnWall)
+		if(m_wasOnWall):
+			m_velocity.x = sign(m_velocity.x) * 0.5
 	
 	if(is_on_ceiling()):
 		m_velocity.y = 0

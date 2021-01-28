@@ -21,6 +21,9 @@ func _ready():
 func ReceiveInputs(inputArr, edgeArr):
 	#Todo: finish
 	
+	if(CanSetXVelocity()):
+		m_direction = GetEntity().GetDirection()
+	
 	if(CanRun(inputArr, edgeArr)):
 		OnRun()
 	
@@ -82,10 +85,10 @@ func CanJump(inputArr, edgeArr):
 	return (GetState() == STATES.LocomotionStates.Grounded || GetState() == STATES.LocomotionStates.Run) && (edgeArr[INPUTS.Input_Jump] == 1)
 
 func CanDoubleJump(inputArr, edgeArr):
-	return GetState() == STATES.LocomotionStates.Jump && (edgeArr[INPUTS.Input_Jump] == 1) && !m_usedDoubleJump
+	return (GetState() == STATES.LocomotionStates.Jump || GetState() == STATES.LocomotionStates.PreWallJump) && (edgeArr[INPUTS.Input_Jump] == 1) && !m_usedDoubleJump
 
 func CanAirDash(inputArr, edgeArr):
-	return GetState() == STATES.LocomotionStates.Jump && (edgeArr[INPUTS.Input_Dash] == 1)
+	return !m_usedAirDash && GetState() == STATES.LocomotionStates.Jump && (edgeArr[INPUTS.Input_Dash] == 1)
 
 func CanPreWallJump(inputArr, edgeArr):
 	return m_isOnWall && !m_isOnFloor && (STATES.LocomotionStates.Jump || STATES.LocomotionStates.AirDash)
@@ -118,7 +121,6 @@ func OnAirDashEnd():
 	SetState(STATES.LocomotionStates.Jump)
 
 func OnPreWallJump():
-	m_direction = GetEntity().GetDirection()
 	SetState(STATES.LocomotionStates.PreWallJump)
 
 func EndPreWallJump():
@@ -127,6 +129,7 @@ func EndPreWallJump():
 func OnWallJump():
 	SetState(STATES.LocomotionStates.WallJump)
 	m_currentState = STATES.LocomotionStates.Jump
+	m_direction = -m_direction
 
 func OnWallJumpEnd():
 	SetState(STATES.LocomotionStates.Jump)
