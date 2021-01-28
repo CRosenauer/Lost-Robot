@@ -7,7 +7,10 @@ var m_edgeArray  = [0, 0, 0, 0, 0]
 
 
 func QueryInputs():
-	ClearInputs()
+	#Clear things we need to clear.
+	ClearEdges()
+	m_inputArray[INPUTS.Input_Down]  = 0
+	m_inputArray[INPUTS.Input_Right] = 0
 	
 	#Cardinal Direction
 	if(Input.is_action_pressed("InputDown")):
@@ -25,19 +28,19 @@ func QueryInputs():
 	InterpretAction(INPUTS.Input_Grapple, "InputGrapple")
 	InterpretAction(INPUTS.Input_Dash, "InputDash")
 
-func ClearInputs():
+func ClearEdges():
 	for i in range(0, m_inputArray.size()):
-		m_inputArray[i] = 0
 		m_edgeArray[i]  = 0
 
 func InterpretAction(enumValue, inputValue):
 	if(Input.is_action_pressed(inputValue)):
 		if(m_inputArray[enumValue] == 0):
-			m_edgeArray[enumValue] += 1 #Cant use in engine rising in falling edges cause we arent using events lul.
+			m_edgeArray[enumValue] = 1 #Cant use in engine rising in falling edges cause we arent using events lul.
 		m_inputArray[enumValue] = 1
 	else:
 		if(m_inputArray[enumValue] == 1):
-			m_edgeArray[enumValue] -= 1
+			m_edgeArray[enumValue] = -1
+		m_inputArray[enumValue] = 0
 
 func GetInputs():
 	return m_inputArray
