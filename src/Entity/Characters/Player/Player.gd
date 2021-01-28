@@ -37,6 +37,8 @@ func _physics_process(_delta):
 		m_wasOnWall = !m_wasOnWall
 		$LocomotionStateMachine.OnIsOnWall(m_wasOnWall)
 	
+	
+	
 	if(m_wasOnFloor):
 		m_velocity.y = 0.01
 	else:

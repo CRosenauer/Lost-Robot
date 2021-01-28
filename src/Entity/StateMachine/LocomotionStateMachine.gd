@@ -20,8 +20,8 @@ func ReceiveInputs(inputArr, edgeArr):
 	
 	if(CanRun(inputArr, edgeArr)):
 		OnRun()
-	else:
-		OnRunEnd()
+	#else:
+		#OnRunEnd()
 	
 	if(CanJump(inputArr, edgeArr)):
 		OnJump()
@@ -70,7 +70,8 @@ func CanAirDash(inputArr, edgeArr):
 	return GetState() == STATES.LocomotionStates.Grounded && (edgeArr[INPUTS.Input_Dash] == -1)
 
 func CanPreWallJump(inputArr, edgeArr):
-	return m_isOnWall && (STATES.LocomotionStates.Jump || STATES.LocomotionStates.AirDash)
+	return false
+	#return m_isOnWall && (STATES.LocomotionStates.Jump || STATES.LocomotionStates.AirDash)
 
 func CanWallJump(inputArr, edgeArr):
 	return GetState() == STATES.LocomotionStates.PreWallJump && IsPressingOppositeDirection(inputArr) && edgeArr[INPUTS.Input_Jump]
@@ -96,7 +97,7 @@ func OnAirDashEnd():
 	SetState(STATES.LocomotionStates.Jump)
 
 func OnPreWallJump():
-	SetState(STATES.LocomotionStates.AirDash)
+	pass#SetState(STATES.LocomotionStates.AirDash)
 
 func EndPreWallJump():
 	SetState(STATES.LocomotionStates.Jump)
