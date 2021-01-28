@@ -12,6 +12,9 @@ var m_isOnFloor = true
 var m_isOnWall = false
 var m_direction = 1
 
+var m_oppositeDirectionPressed = false
+var m_jumpPressed = false
+
 func _ready():
 	m_currentState = STATES.LocomotionStates.Grounded
 
@@ -23,6 +26,18 @@ func ReceiveInputs(inputArr, edgeArr):
 	
 	if(CanStopRun(inputArr, edgeArr)):
 		OnRunEnd()
+	
+	if(m_currentState == STATES.LocomotionStates.PreWallJump && IsPressingOppositeDirection(inputArr)):
+		SetTimer(WallJumpTime, "ResetWallJumpParams")
+		m_oppositeDirectionPressed = true
+		m_jumpPressed = false
+	
+	if(m_currentState == STATES.LocomotionStates.PreWallJump && edgeArr[INPUTS.Input_Jump] == 1):
+		m_jumpPressed = true
+	
+	if(CanWallJump(inputArr, edgeArr)):
+		OnWallJump()
+		return
 	
 	if(CanJump(inputArr, edgeArr)):
 		OnJump()
@@ -40,9 +55,6 @@ func ReceiveInputs(inputArr, edgeArr):
 		OnPreWallJump()
 		return
 	
-	if(CanWallJump(inputArr, edgeArr)):
-		OnWallJump()
-		return
 
 #Todo: Logic for grapplings
 func OnGrounded():
@@ -54,9 +66,14 @@ func OnIsOnFloor(value):
 	m_isOnFloor = value
 	if(m_isOnFloor):
 		OnGrounded()
+	else:
+		m_currentState = STATES.LocomotionStates.Jump
 
 func OnIsOnWall(value):
 	m_isOnWall = value
+	if(!m_isOnWall && !m_isOnFloor):
+		ResetWallJumpParams()
+		m_currentState = STATES.LocomotionStates.Jump
 
 func OnDirectionChange(nDirection):
 	m_direction = nDirection
@@ -71,10 +88,10 @@ func CanAirDash(inputArr, edgeArr):
 	return GetState() == STATES.LocomotionStates.Jump && (edgeArr[INPUTS.Input_Dash] == 1)
 
 func CanPreWallJump(inputArr, edgeArr):
-	return false#m_isOnWall && !m_isOnFloor && (STATES.LocomotionStates.Jump || STATES.LocomotionStates.AirDash)
+	return m_isOnWall && !m_isOnFloor && (STATES.LocomotionStates.Jump || STATES.LocomotionStates.AirDash)
 
 func CanWallJump(inputArr, edgeArr):
-	return GetState() == STATES.LocomotionStates.PreWallJump && IsPressingOppositeDirection(inputArr) && edgeArr[INPUTS.Input_Jump]
+	return GetState() == STATES.LocomotionStates.PreWallJump && m_oppositeDirectionPressed && m_jumpPressed
 
 func CanRun(inputArr, edgeArr):
 	return GetState() == STATES.LocomotionStates.Grounded && (inputArr[INPUTS.Input_Dash] == 1)
@@ -101,14 +118,15 @@ func OnAirDashEnd():
 	SetState(STATES.LocomotionStates.Jump)
 
 func OnPreWallJump():
+	m_direction = GetEntity().GetDirection()
 	SetState(STATES.LocomotionStates.PreWallJump)
 
 func EndPreWallJump():
 	SetState(STATES.LocomotionStates.Jump)
 
 func OnWallJump():
-	DisconnectTimer()
 	SetState(STATES.LocomotionStates.WallJump)
+	m_currentState = STATES.LocomotionStates.Jump
 
 func OnWallJumpEnd():
 	SetState(STATES.LocomotionStates.Jump)
@@ -124,3 +142,7 @@ func OnRunEnd():
 
 func CanSetXVelocity():
 	return GetState() == STATES.LocomotionStates.Grounded || GetState() == STATES.LocomotionStates.Run
+
+func ResetWallJumpParams():
+	m_oppositeDirectionPressed = false
+	m_jumpPressed = false

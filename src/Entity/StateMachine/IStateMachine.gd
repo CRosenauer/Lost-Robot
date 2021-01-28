@@ -4,7 +4,10 @@ extends Node2D
 signal OnStateChanged(state)
 
 var m_currentState
-var m_timerCallback
+var m_timerCallback = ""
+
+func GetEntity():
+	return get_parent()
 
 func GetState():
 	return m_currentState

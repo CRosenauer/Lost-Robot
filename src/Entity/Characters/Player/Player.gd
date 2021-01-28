@@ -15,7 +15,8 @@ export var JumpVelocity = -5
 export var MoveSpeed    = 250
 export var MaxFallSpeed = 100
 export var RunSpeed     = 0
-export var AirDashVelocity = Vector2(3, -1) #WARNING: Will be multiplied by MoveSpeed
+export var AirDashVelocity  = Vector2(3, -1) #WARNING: Will be multiplied by MoveSpeed
+export var WallJumpVelocity = Vector2(2, -3) # ^^^
 
 var m_inputs
 
@@ -41,13 +42,14 @@ func _physics_process(_delta):
 	
 	move_and_slide(tempVelocity , PHYSICS.UP)
 	
-	if(is_on_wall() != m_wasOnWall):
-		m_wasOnWall = !m_wasOnWall
-		$LocomotionStateMachine.OnIsOnWall(m_wasOnWall)
 	
 	if(is_on_floor() != m_wasOnFloor):
 		m_wasOnFloor = !m_wasOnFloor
 		$LocomotionStateMachine.OnIsOnFloor(m_wasOnFloor)
+	
+	if(is_on_wall() != m_wasOnWall):
+		m_wasOnWall = !m_wasOnWall
+		$LocomotionStateMachine.OnIsOnWall(m_wasOnWall)
 	
 	if(is_on_ceiling()):
 		m_velocity.y = 0
@@ -64,7 +66,11 @@ func _on_locomotion_stateChanged(state):
 		LOCOMOTIONSTATES.LocomotionStates.Jump:
 			m_velocity.y =  JumpVelocity
 		LOCOMOTIONSTATES.LocomotionStates.WallJump:
-			m_velocity.y =  JumpVelocity
+			if(m_inputs[INPUTS.Input_Right] != 0):
+				m_velocity.x = m_inputs[INPUTS.Input_Right] * WallJumpVelocity.x
+			else:
+				m_velocity.x = GetDirection() * WallJumpVelocity.x
+			m_velocity.y = WallJumpVelocity.y
 		LOCOMOTIONSTATES.LocomotionStates.Run:
 			m_runMultiplier = 2
 		LOCOMOTIONSTATES.LocomotionStates.Grounded:
