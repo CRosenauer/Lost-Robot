@@ -66,8 +66,10 @@ func _physics_process(_delta):
 func _on_locomotion_stateChanged(state):
 	match state:
 		LOCOMOTIONSTATES.LocomotionStates.Jump:
+			$Components/AnimatedComponent.SetAnimation("GroundJump")
 			m_velocity.y =  JumpVelocity
 		LOCOMOTIONSTATES.LocomotionStates.WallJump:
+			$Components/AnimatedComponent.SetAnimation("Jump")
 			if(m_inputs[INPUTS.Input_Right] != 0):
 				m_velocity.x = m_inputs[INPUTS.Input_Right] * WallJumpVelocity.x
 			else:
@@ -88,3 +90,5 @@ func _on_locomotion_stateChanged(state):
 			else:
 				m_velocity.x = GetDirection() * AirDashVelocity.x
 			m_velocity.y = AirDashVelocity.y
+		LOCOMOTIONSTATES.LocomotionStates.PreWallJump:
+			$Components/AnimatedComponent.SetAnimation("PreWallJump")

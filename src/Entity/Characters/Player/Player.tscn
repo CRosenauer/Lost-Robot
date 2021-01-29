@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Entity/Base/IEntity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Entity/Characters/Player/Player.gd" type="Script" id=2]
@@ -7,8 +7,10 @@
 [ext_resource path="res://Entity/StateMachine/LocomotionStateMachine.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Assets/Character/Idle.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Character/Walk4.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Character/Jump1.png" type="Texture" id=8]
 [ext_resource path="res://Assets/Character/Walk2.png" type="Texture" id=9]
 [ext_resource path="res://Assets/Character/Walk3.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Character/WallJump.png" type="Texture" id=11]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -26,6 +28,21 @@ animations = [ {
 "loop": true,
 "name": "Walk",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "GroundJump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "Jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ) ],
+"loop": true,
+"name": "PreWallJump",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -38,7 +55,7 @@ script = ExtResource( 2 )
 
 [node name="AnimatedComponent" parent="Components" index="1" instance=ExtResource( 3 )]
 frames = SubResource( 2 )
-animation = "Walk"
+animation = "PreWallJump"
 defaultAnimation = "Idle"
 
 [node name="LocomotionStateMachine" parent="." index="1" instance=ExtResource( 5 )]
