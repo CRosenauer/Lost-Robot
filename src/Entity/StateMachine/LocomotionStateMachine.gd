@@ -88,7 +88,7 @@ func CanDoubleJump(inputArr, edgeArr):
 	return (GetState() == STATES.LocomotionStates.Jump || GetState() == STATES.LocomotionStates.PreWallJump) && (edgeArr[INPUTS.Input_Jump] == 1) && !m_usedDoubleJump
 
 func CanAirDash(inputArr, edgeArr):
-	return !m_usedAirDash && GetState() == STATES.LocomotionStates.Jump && (edgeArr[INPUTS.Input_Dash] == 1)
+	return !m_usedAirDash && ( GetState() == STATES.LocomotionStates.Jump ||  GetState() == STATES.LocomotionStates.PreWallJump ) && (edgeArr[INPUTS.Input_Dash] == 1)
 
 func CanPreWallJump(inputArr, edgeArr):
 	return m_isOnWall && !m_isOnFloor && (STATES.LocomotionStates.Jump || STATES.LocomotionStates.AirDash)
