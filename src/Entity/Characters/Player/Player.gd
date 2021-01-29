@@ -36,12 +36,12 @@ func _physics_process(_delta):
 		SetDirection(m_inputs[INPUTS.Input_Right])
 	
 	var tempVelocity
-	tempVelocity = m_velocity
+	tempVelocity    = m_velocity
 	tempVelocity.x *= m_runMultiplier
 	tempVelocity   *= MoveSpeed
 	
 	move_and_slide(tempVelocity , PHYSICS.UP)
-	
+	$Components/AnimatedComponent.SetXVelocity(m_velocity.x)
 	
 	if(is_on_floor() != m_wasOnFloor):
 		m_wasOnFloor = !m_wasOnFloor
@@ -75,8 +75,13 @@ func _on_locomotion_stateChanged(state):
 			m_velocity.y = WallJumpVelocity.y
 		LOCOMOTIONSTATES.LocomotionStates.Run:
 			m_runMultiplier = 2
+			$Components/AnimatedComponent.SetAnimation("Walk")
 		LOCOMOTIONSTATES.LocomotionStates.Grounded:
 			m_runMultiplier = 1
+			if(m_velocity.x != 0):
+				$Components/AnimatedComponent.SetAnimation("Walk")
+			else:
+				$Components/AnimatedComponent.SetAnimation("Idle")
 		LOCOMOTIONSTATES.LocomotionStates.AirDash:
 			if(m_inputs[INPUTS.Input_Right] != 0):
 				m_velocity.x = m_inputs[INPUTS.Input_Right] * AirDashVelocity.x

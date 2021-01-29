@@ -1,25 +1,48 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Entity/Base/IEntity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Entity/Characters/Player/Player.gd" type="Script" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://Entity/Components/AnimatedComponent.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Entity/Components/InputComponent.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Entity/StateMachine/LocomotionStateMachine.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Character/Idle.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Character/Walk4.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Character/Walk2.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Character/Walk3.png" type="Texture" id=10]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "Walk",
+"speed": 5.0
+} ]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 32 )
+extents = Vector2( 24, 64 )
 
 [node name="IEntity" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="InputComponent" parent="Components" index="0" instance=ExtResource( 4 )]
 
+[node name="AnimatedComponent" parent="Components" index="1" instance=ExtResource( 3 )]
+frames = SubResource( 2 )
+animation = "Walk"
+defaultAnimation = "Idle"
+
 [node name="LocomotionStateMachine" parent="." index="1" instance=ExtResource( 5 )]
 
-[node name="Sprite" type="Sprite" parent="." index="2"]
-rotation = 1.5708
-texture = ExtResource( 3 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
 shape = SubResource( 1 )
 [connection signal="OnStateChanged" from="LocomotionStateMachine" to="." method="_on_locomotion_stateChanged"]
