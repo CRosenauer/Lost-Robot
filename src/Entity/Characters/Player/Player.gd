@@ -83,3 +83,5 @@ func _on_locomotion_stateChanged(state):
 			else:
 				m_velocity.x = GetDirection() * AirDashVelocity.x
 			m_velocity.y = AirDashVelocity.y
+
+
