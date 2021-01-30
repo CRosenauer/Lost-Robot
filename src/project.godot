@@ -129,11 +129,9 @@ InputPause={
 
 [layer_names]
 
-2d_physics/layer_1="Player Collision"
+2d_physics/layer_1="Collision"
 2d_physics/layer_2="Camera Collision"
 2d_physics/layer_3="Hit"
-2d_physics/layer_4="Enemy Collision"
-2d_physics/layer_5="HACK_CrawlerTurnaround"
 
 [rendering]
 
