@@ -12,11 +12,21 @@
 [ext_resource path="res://Assets/Character/Walk3.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Character/WallJump.png" type="Texture" id=11]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 6 ) ],
 "loop": true,
 "name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "Jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ) ],
+"loop": true,
+"name": "PreWallJump",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 6 ) ],
@@ -33,19 +43,9 @@ animations = [ {
 "loop": true,
 "name": "GroundJump",
 "speed": 5.0
-}, {
-"frames": [ ExtResource( 9 ) ],
-"loop": true,
-"name": "Jump",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 11 ) ],
-"loop": true,
-"name": "PreWallJump",
-"speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 24, 64 )
 
 [node name="IEntity" instance=ExtResource( 1 )]
@@ -54,12 +54,12 @@ script = ExtResource( 2 )
 [node name="InputComponent" parent="Components" index="0" instance=ExtResource( 4 )]
 
 [node name="AnimatedComponent" parent="Components" index="1" instance=ExtResource( 3 )]
-frames = SubResource( 2 )
-animation = "PreWallJump"
+frames = SubResource( 1 )
+animation = "Idle"
 defaultAnimation = "Idle"
 
 [node name="LocomotionStateMachine" parent="." index="1" instance=ExtResource( 5 )]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="2"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 [connection signal="OnStateChanged" from="LocomotionStateMachine" to="." method="_on_locomotion_stateChanged"]

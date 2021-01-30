@@ -20,3 +20,6 @@ func SetDirection(direction):
 
 func GetDirection():
 	return sign( cos( rotation_degrees * PI / 180 ) ) 
+
+func FlipDirection():
+	scale.x = -1
