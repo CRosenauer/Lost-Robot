@@ -18,6 +18,8 @@ var m_jumpPressed = false
 
 var m_disabledAbilities = [true, true, true, true, true]
 
+var m_lastKnownVelocity = 0
+
 func _ready():
 	m_currentState = STATES.LocomotionStates.Grounded
 
@@ -75,6 +77,7 @@ func OnIsOnFloor(value):
 
 func OnIsOnWall(value):
 	m_isOnWall = value
+	m_direction = sign(m_lastKnownVelocity)
 	if(!m_isOnWall && !m_isOnFloor):
 		SetTimer(WallJumpTime, "ResetWallJumpParams")
 	#	m_currentState = STATES.LocomotionStates.Jump
@@ -134,6 +137,7 @@ func EndPreWallJump():
 	SetState(STATES.LocomotionStates.Jump)
 
 func OnWallJump():
+	ResetWallJumpParams()
 	SetState(STATES.LocomotionStates.WallJump)
 	m_currentState = STATES.LocomotionStates.Jump
 	m_direction = -m_direction
