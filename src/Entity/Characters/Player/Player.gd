@@ -1,10 +1,17 @@
 extends "res://Entity/Base/IEntity.gd"
 
+#Imports
 const INPUTS = preload("res://Inputs/InputMap.gd")
 const LOCOMOTIONSTATES = preload("res://Entity/StateMachine/LocomotionStates.gd")
 const PHYSICS = preload("res://Physics/Physics.gd")
 const ABILITIES = preload("res://Entity/StateMachine/LockedInputs.gd")
 
+#Signals
+signal OnDeath()
+signal OnLifeChanged(m_currentLife)
+
+
+#Other shit
 var m_velocity = Vector2()
 
 var m_wasOnFloor  = false
@@ -12,6 +19,12 @@ var m_wasOnWall   = false
 
 var m_runMultiplier = 1
 
+var m_inputs
+
+const TOTAL_LIFE = 3
+var m_currentLife = TOTAL_LIFE
+
+#Editable Vars
 export var JumpVelocity = -5
 export var MoveSpeed    = 250
 export var MaxFallSpeed = 100
@@ -21,8 +34,7 @@ export var WallJumpVelocity = Vector2(2, -3.5) # ^^^
 export var AirDriftMod = 0.07
 export var FastAirDriftMod = 0.2
 export var XSpeedCap   = 1
-
-var m_inputs
+export var KnockbackVelocity = Vector2(2, -3)
 
 func _ready():
 	LockAbilities(ABILITIES.Jump, false)
@@ -129,3 +141,19 @@ func _on_locomotion_stateChanged(state):
 
 func LockAbilities(lock, disable):
 	$LocomotionStateMachine.LockAbilities(lock, disable)
+
+#Used for enemies and stuff
+func _on_HitBoxComponent_area_entered(_area):
+	m_velocity.x = KnockbackVelocity.x * sign(m_velocity.x)
+	m_velocity.y = KnockbackVelocity.y 
+	GainLife(-1)
+	$LocomotionStateMachine.m_currentState = LOCOMOTIONSTATES.LocomotionStates.HitStun #Not a good use of locomotion states. should be another state...
+
+func GainLife(life):
+	m_currentLife + life
+	if(m_currentLife <= 0):
+		m_currentLife = 0
+	emit_signal("OnDeath")
+	emit_signal("OnLifeChanged", m_currentLife)
+	#Send info to life bar component
+	#Something to play a death animation... idk
