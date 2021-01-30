@@ -28,7 +28,7 @@ var m_currentLife = TOTAL_LIFE
 export var JumpVelocity       = -4
 export var DoubleJumpVelocity = -4 # unused
 export var MoveSpeed          = 250
-export var MaxFallSpeed       = 50
+export var MaxFallSpeed       = 4
 export var RunSpeed           = 0
 export var AirDashVelocity    = Vector2(4, -1.5) #WARNING: Will be multiplied by MoveSpeed
 export var WallJumpVelocity   = Vector2(2, -3.5) # ^^^
@@ -70,6 +70,8 @@ func _physics_process(_delta):
 	
 	#if(abs(m_velocity.x) > WallJumpVelocity.x ):
 	#	m_velocity.x -= AirDrag * sign(m_velocity.x) * _delta
+	
+	$LocomotionStateMachine.m_lastKnownVelocity = m_velocity.x
 	
 	var tempVelocity
 	tempVelocity    = m_velocity
@@ -116,7 +118,8 @@ func _on_locomotion_stateChanged(state):
 		LOCOMOTIONSTATES.LocomotionStates.WallJump:
 			m_runMultiplier = 1
 			$Components/AnimatedComponent.SetAnimation("Jump")
-			FlipDirection()
+			$Components/AudioComponent.PlayAudio("Jump", false)
+			#FlipDirection()
 			if(m_inputs[INPUTS.Input_Right] != 0):
 				m_velocity.x = m_inputs[INPUTS.Input_Right] * WallJumpVelocity.x
 			else:
@@ -145,6 +148,7 @@ func _on_locomotion_stateChanged(state):
 			m_velocity.y = AirDashVelocity.y
 		LOCOMOTIONSTATES.LocomotionStates.PreWallJump:
 			$Components/AnimatedComponent.SetAnimation("PreWallJump")
+			SetDirection(-sign(m_velocity.x))
 		LOCOMOTIONSTATES.LocomotionStates.HitStun:
 			$Components/AudioComponent.PlayAudio("Hit", false)
 			#Need animation or something
