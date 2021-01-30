@@ -68,13 +68,13 @@ func _physics_process(_delta):
 				if( abs( m_velocity.x + m_inputs[INPUTS.Input_Right] * FastAirDriftMod * _delta ) < XSpeedCap || sign(m_velocity.x) != sign(m_inputs[INPUTS.Input_Right])):
 					m_velocity.x += m_inputs[INPUTS.Input_Right] * FastAirDriftMod * _delta
 	
-	if(abs(m_velocity.x) > WallJumpVelocity.x ):
-		m_velocity.x -= AirDrag * sign(m_velocity.x) * _delta
+	#if(abs(m_velocity.x) > WallJumpVelocity.x ):
+	#	m_velocity.x -= AirDrag * sign(m_velocity.x) * _delta
 	
 	var tempVelocity
 	tempVelocity    = m_velocity
 	tempVelocity.x *= m_runMultiplier
-	tempVelocity   *= MoveSpeed
+	tempVelocity   *= MoveSpeed * 1.4
 	
 	move_and_slide(tempVelocity , PHYSICS.UP)
 	$Components/AnimatedComponent.SetXVelocity(m_velocity.x)
@@ -163,9 +163,13 @@ func GainLife(life):
 	m_currentLife + life
 	if(m_currentLife <= 0):
 		m_currentLife = 0
-		emit_signal("OnDeath")
+		emit_signal("Death")
+		$Components/AnimatedComponent.visible = false
 	elif(m_currentLife > 3):
 		m_currentLife = 3
 	emit_signal("OnLifeChanged", m_currentLife)
 	#Send info to life bar component
 	#Something to play a death animation... idk
+
+func OnDeath():
+	pass
