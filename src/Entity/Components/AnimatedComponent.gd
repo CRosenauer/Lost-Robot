@@ -10,6 +10,7 @@ func _ready():
 func SetAnimation(animName):
 	m_currentAnim = animName
 	play(animName)
+	
 
 func SetXVelocity(velocity):
 	if(m_currentAnim == "Idle"):

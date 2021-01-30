@@ -25,3 +25,4 @@ func SetTimer(delay, callback):
 
 func DisconnectTimer():
 	$StateTimer.disconnect("timeout", self, m_timerCallback)
+	$StateTimer.wait_time = 0

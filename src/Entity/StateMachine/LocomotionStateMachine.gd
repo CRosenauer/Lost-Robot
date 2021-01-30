@@ -34,7 +34,6 @@ func ReceiveInputs(inputArr, edgeArr):
 		OnRunEnd()
 	
 	if(m_currentState == STATES.LocomotionStates.PreWallJump && IsPressingOppositeDirection(inputArr)):
-		SetTimer(WallJumpTime, "ResetWallJumpParams")
 		m_oppositeDirectionPressed = true
 		m_jumpPressed = false
 	
@@ -45,20 +44,20 @@ func ReceiveInputs(inputArr, edgeArr):
 		OnWallJump()
 		return
 	
-	if(CanJump(inputArr, edgeArr)):
-		OnJump()
-		return
-	
 	if(CanDoubleJump(inputArr, edgeArr)):
 		OnDoubleJump()
 		return
 	
-	if(CanAirDash(inputArr, edgeArr)):
-		OnAirDash()
-		return
-	
 	if(CanPreWallJump(inputArr, edgeArr)):
 		OnPreWallJump()
+		return
+	
+	if(CanJump(inputArr, edgeArr)):
+		OnJump()
+		return
+	
+	if(CanAirDash(inputArr, edgeArr)):
+		OnAirDash()
 		return
 
 #Todo: Logic for grapplings
@@ -77,9 +76,9 @@ func OnIsOnFloor(value):
 func OnIsOnWall(value):
 	m_isOnWall = value
 	if(!m_isOnWall && !m_isOnFloor):
-		ResetWallJumpParams()
-		m_currentState = STATES.LocomotionStates.Jump
-		get_parent().get_node("Components/AnimatedComponent").SetAnimation("Jump")
+		SetTimer(WallJumpTime, "ResetWallJumpParams")
+	#	m_currentState = STATES.LocomotionStates.Jump
+	#	get_parent().get_node("Components/AnimatedComponent").SetAnimation("Jump")
 
 func OnDirectionChange(nDirection):
 	m_direction = nDirection
@@ -88,7 +87,12 @@ func CanJump(inputArr, edgeArr):
 	return !m_disabledAbilities[ABILITIES.Jump] && (GetState() == STATES.LocomotionStates.Grounded || GetState() == STATES.LocomotionStates.Run) && (edgeArr[INPUTS.Input_Jump] == 1)
 
 func CanDoubleJump(inputArr, edgeArr):
-	return !m_disabledAbilities[ABILITIES.DoubleJump] && (GetState() == STATES.LocomotionStates.Jump || GetState() == STATES.LocomotionStates.PreWallJump) && (edgeArr[INPUTS.Input_Jump] == 1) && !m_usedDoubleJump
+	if !m_disabledAbilities[ABILITIES.DoubleJump]:
+		if (GetState() == STATES.LocomotionStates.Jump || GetState() == STATES.LocomotionStates.PreWallJump):
+			if edgeArr[INPUTS.Input_Jump] == 1:
+				return !m_usedDoubleJump
+	
+	return false
 
 func CanAirDash(inputArr, edgeArr):
 	return !m_disabledAbilities[ABILITIES.AirDash] && !m_usedAirDash && ( GetState() == STATES.LocomotionStates.Jump ||  GetState() == STATES.LocomotionStates.PreWallJump ) && (edgeArr[INPUTS.Input_Dash] == 1)
@@ -103,7 +107,7 @@ func CanRun(inputArr, edgeArr):
 	return !m_disabledAbilities[ABILITIES.Run] && GetState() == STATES.LocomotionStates.Grounded && (inputArr[INPUTS.Input_Dash] == 1)
 
 func CanStopRun(inputArr, edgeArr):
-	return GetState() == STATES.LocomotionStates.Run && (inputArr[INPUTS.Input_Dash] == 0)
+	return GetState() == STATES.LocomotionStates.Run && (inputArr[INPUTS.Input_Dash] == 0 || inputArr[INPUTS.Input_Right] == 0)
 
 func IsPressingOppositeDirection(inputArr):
 	return (inputArr[INPUTS.Input_Right] == 1 && m_direction == -1) || (inputArr[INPUTS.Input_Right] == -1 && m_direction == 1)
@@ -150,8 +154,12 @@ func CanSetXVelocity():
 	return GetState() == STATES.LocomotionStates.Grounded || GetState() == STATES.LocomotionStates.Run
 
 func ResetWallJumpParams():
-	m_oppositeDirectionPressed = false
-	m_jumpPressed = false
+	if(!m_isOnWall):
+		m_oppositeDirectionPressed = false
+		m_jumpPressed = false
+		if(STATES.LocomotionStates.PreWallJump == GetState()):
+			m_currentState = STATES.LocomotionStates.Jump
+			get_parent().get_node("Components/AnimatedComponent").play("Jump")
 
 func LockAbilities(lock, disable):
 	m_disabledAbilities[lock] = disable

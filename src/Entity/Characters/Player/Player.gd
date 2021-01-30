@@ -16,8 +16,11 @@ export var JumpVelocity = -5
 export var MoveSpeed    = 250
 export var MaxFallSpeed = 100
 export var RunSpeed     = 0
-export var AirDashVelocity  = Vector2(3, -1) #WARNING: Will be multiplied by MoveSpeed
+export var AirDashVelocity  = Vector2(4, -1.5) #WARNING: Will be multiplied by MoveSpeed
 export var WallJumpVelocity = Vector2(2, -3.5) # ^^^
+export var AirDriftMod = 0.07
+export var FastAirDriftMod = 0.2
+export var XSpeedCap   = 1
 
 var m_inputs
 
@@ -34,14 +37,21 @@ func _physics_process(_delta):
 	m_inputs = $Components/InputComponent.GetInputs()
 	var edges  = $Components/InputComponent.GetEdges()
 	
+	$LocomotionStateMachine.ReceiveInputs(m_inputs, edges)
+	
 	if(m_inputs[INPUTS.Input_Jump] == 1):
 		pass
 	
-	$LocomotionStateMachine.ReceiveInputs(m_inputs, edges)
-	
 	if($LocomotionStateMachine.CanSetXVelocity()):
-		m_velocity.x = m_inputs[INPUTS.Input_Right]
+		m_velocity.x = m_inputs[INPUTS.Input_Right] * XSpeedCap
 		SetDirection(m_inputs[INPUTS.Input_Right])
+	else: #Air drift
+		if( abs( m_velocity.x ) > XSpeedCap):
+			if( abs( m_velocity.x + m_inputs[INPUTS.Input_Right] * AirDriftMod ) < XSpeedCap || sign(m_velocity.x) != sign(m_inputs[INPUTS.Input_Right]) ):
+				m_velocity.x += m_inputs[INPUTS.Input_Right] * AirDriftMod
+		else:
+			if( abs( m_velocity.x + m_inputs[INPUTS.Input_Right] * FastAirDriftMod ) < XSpeedCap || sign(m_velocity.x) != sign(m_inputs[INPUTS.Input_Right])):
+				m_velocity.x += m_inputs[INPUTS.Input_Right] * FastAirDriftMod
 	
 	var tempVelocity
 	tempVelocity    = m_velocity
@@ -54,6 +64,9 @@ func _physics_process(_delta):
 	if(is_on_floor() != m_wasOnFloor):
 		m_wasOnFloor = !m_wasOnFloor
 		$LocomotionStateMachine.OnIsOnFloor(m_wasOnFloor)
+		if(!m_wasOnFloor):
+			$Components/AnimatedComponent.stop()
+	
 	
 	if(is_on_wall() != m_wasOnWall):
 		m_wasOnWall = !m_wasOnWall
@@ -92,7 +105,8 @@ func _on_locomotion_stateChanged(state):
 			m_velocity.y = WallJumpVelocity.y
 		LOCOMOTIONSTATES.LocomotionStates.Run:
 			m_runMultiplier = 2
-			$Components/AnimatedComponent.SetAnimation("Walk")
+			if(m_velocity.x != 0):
+				$Components/AnimatedComponent.SetAnimation("Run")
 			m_wasOnWall = true
 		LOCOMOTIONSTATES.LocomotionStates.Grounded:
 			m_runMultiplier = 1
@@ -102,9 +116,11 @@ func _on_locomotion_stateChanged(state):
 				$Components/AnimatedComponent.SetAnimation("Idle")
 		LOCOMOTIONSTATES.LocomotionStates.AirDash:
 			m_runMultiplier = 1
+			$Components/AnimatedComponent.SetAnimation("Jump")
 			if(m_inputs[INPUTS.Input_Right] != 0):
 				m_velocity.x = m_inputs[INPUTS.Input_Right] * AirDashVelocity.x
 				SetDirection(m_inputs[INPUTS.Input_Right])
+				$LocomotionStateMachine.OnDirectionChange(m_inputs[INPUTS.Input_Right])
 			else:
 				m_velocity.x = GetDirection() * AirDashVelocity.x
 			m_velocity.y = AirDashVelocity.y

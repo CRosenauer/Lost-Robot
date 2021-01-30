@@ -24,6 +24,11 @@ animations = [ {
 "name": "Jump",
 "speed": 5.0
 }, {
+"frames": [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 7 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "Run",
+"speed": 10.0
+}, {
 "frames": [ ExtResource( 11 ) ],
 "loop": true,
 "name": "PreWallJump",
@@ -50,12 +55,13 @@ extents = Vector2( 24, 64 )
 
 [node name="IEntity" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+AirDriftMod = 0.07
 
 [node name="InputComponent" parent="Components" index="0" instance=ExtResource( 4 )]
 
 [node name="AnimatedComponent" parent="Components" index="1" instance=ExtResource( 3 )]
 frames = SubResource( 1 )
-animation = "Idle"
+animation = "Run"
 defaultAnimation = "Idle"
 
 [node name="LocomotionStateMachine" parent="." index="1" instance=ExtResource( 5 )]
