@@ -13,7 +13,7 @@ func _process(_delta):
 	elif(mod < -SpeedModConstraint):
 		mod = -SpeedModConstraint
 	
-	$LifeBar.global_position = $CameraComponent.global_position
+	#$LifeBar.global_position = $CameraComponent.global_position
 	#$CameraComponent.position.x += mod
 
 

@@ -100,11 +100,13 @@ tile_data = PoolIntArray( -1900497, -1073741822, 0, -1900496, -1073741822, 0, -1
 position = Vector2( 504, 448 )
 
 [node name="CameraComponent" parent="." instance=ExtResource( 3 )]
-position = Vector2( 504, 448 )
+position = Vector2( 352, 312 )
 smoothing_speed = 6.0
 
 [node name="Timer" type="Timer" parent="."]
 
-[node name="LifeBar" parent="." instance=ExtResource( 5 )]
-position = Vector2( -8, 64 )
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LifeBar" parent="CanvasLayer" instance=ExtResource( 5 )]
+position = Vector2( 224, 152 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
