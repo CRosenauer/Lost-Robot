@@ -68,8 +68,8 @@ func _physics_process(_delta):
 				if( abs( m_velocity.x + m_inputs[INPUTS.Input_Right] * FastAirDriftMod * _delta ) < XSpeedCap || sign(m_velocity.x) != sign(m_inputs[INPUTS.Input_Right])):
 					m_velocity.x += m_inputs[INPUTS.Input_Right] * FastAirDriftMod * _delta
 	
-	if(abs(m_velocity.x) > WallJumpVelocity.x ):
-		m_velocity.x -= AirDrag * sign(m_velocity.x) * _delta
+	#if(abs(m_velocity.x) > WallJumpVelocity.x ):
+	#	m_velocity.x -= AirDrag * sign(m_velocity.x) * _delta
 	
 	var tempVelocity
 	tempVelocity    = m_velocity
