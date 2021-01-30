@@ -25,16 +25,18 @@ const TOTAL_LIFE = 3
 var m_currentLife = TOTAL_LIFE
 
 #Editable Vars
-export var JumpVelocity = -5
-export var MoveSpeed    = 250
-export var MaxFallSpeed = 100
-export var RunSpeed     = 0
-export var AirDashVelocity  = Vector2(4, -1.5) #WARNING: Will be multiplied by MoveSpeed
-export var WallJumpVelocity = Vector2(2, -3.5) # ^^^
-export var AirDriftMod = 0.07
-export var FastAirDriftMod = 0.2
-export var XSpeedCap   = 1
-export var KnockbackVelocity = Vector2(2, -3)
+export var JumpVelocity       = -4
+export var DoubleJumpVelocity = -4 # unused
+export var MoveSpeed          = 250
+export var MaxFallSpeed       = 50
+export var RunSpeed           = 0
+export var AirDashVelocity    = Vector2(4, -1.5) #WARNING: Will be multiplied by MoveSpeed
+export var WallJumpVelocity   = Vector2(2, -3.5) # ^^^
+export var AirDriftMod        = 10
+export var FastAirDriftMod    = 10
+export var XSpeedCap          = 1
+export var KnockbackVelocity  = Vector2(-0.4, -2)
+export var AirDrag            = 4
 
 func _ready():
 	LockAbilities(ABILITIES.Jump, false)
@@ -58,12 +60,16 @@ func _physics_process(_delta):
 		m_velocity.x = m_inputs[INPUTS.Input_Right] * XSpeedCap
 		SetDirection(m_inputs[INPUTS.Input_Right])
 	else: #Air drift
-		if( abs( m_velocity.x ) > XSpeedCap):
-			if( abs( m_velocity.x + m_inputs[INPUTS.Input_Right] * AirDriftMod ) < XSpeedCap || sign(m_velocity.x) != sign(m_inputs[INPUTS.Input_Right]) ):
-				m_velocity.x += m_inputs[INPUTS.Input_Right] * AirDriftMod
-		else:
-			if( abs( m_velocity.x + m_inputs[INPUTS.Input_Right] * FastAirDriftMod ) < XSpeedCap || sign(m_velocity.x) != sign(m_inputs[INPUTS.Input_Right])):
-				m_velocity.x += m_inputs[INPUTS.Input_Right] * FastAirDriftMod
+		if($LocomotionStateMachine.GetState() != LOCOMOTIONSTATES.LocomotionStates.HitStun):
+			if( abs( m_velocity.x ) > XSpeedCap):
+				if( abs( m_velocity.x + m_inputs[INPUTS.Input_Right] * AirDriftMod * _delta) < XSpeedCap || sign(m_velocity.x) != sign(m_inputs[INPUTS.Input_Right]) ):
+					m_velocity.x += m_inputs[INPUTS.Input_Right] * AirDriftMod * _delta
+			else:
+				if( abs( m_velocity.x + m_inputs[INPUTS.Input_Right] * FastAirDriftMod * _delta ) < XSpeedCap || sign(m_velocity.x) != sign(m_inputs[INPUTS.Input_Right])):
+					m_velocity.x += m_inputs[INPUTS.Input_Right] * FastAirDriftMod * _delta
+	
+	if(abs(m_velocity.x) > WallJumpVelocity.x ):
+		m_velocity.x -= AirDrag * sign(m_velocity.x) * _delta
 	
 	var tempVelocity
 	tempVelocity    = m_velocity
@@ -99,6 +105,7 @@ func _physics_process(_delta):
 func _on_locomotion_stateChanged(state):
 	match state:
 		LOCOMOTIONSTATES.LocomotionStates.Jump:
+			$Components/AudioComponent.PlayAudio("Jump", false)
 			$Components/AnimatedComponent.SetAnimation("Jump")
 			m_velocity.y = JumpVelocity
 			if(m_velocity.x == 0):
@@ -138,22 +145,27 @@ func _on_locomotion_stateChanged(state):
 			m_velocity.y = AirDashVelocity.y
 		LOCOMOTIONSTATES.LocomotionStates.PreWallJump:
 			$Components/AnimatedComponent.SetAnimation("PreWallJump")
+		LOCOMOTIONSTATES.LocomotionStates.HitStun:
+			$Components/AudioComponent.PlayAudio("Hit", false)
+			#Need animation or something
 
 func LockAbilities(lock, disable):
 	$LocomotionStateMachine.LockAbilities(lock, disable)
 
 #Used for enemies and stuff
 func _on_HitBoxComponent_area_entered(_area):
-	m_velocity.x = KnockbackVelocity.x * sign(m_velocity.x)
+	m_velocity.x = KnockbackVelocity.x * $LocomotionStateMachine.m_direction
 	m_velocity.y = KnockbackVelocity.y 
 	GainLife(-1)
-	$LocomotionStateMachine.m_currentState = LOCOMOTIONSTATES.LocomotionStates.HitStun #Not a good use of locomotion states. should be another state...
+	$LocomotionStateMachine.OnHitstun()
 
 func GainLife(life):
 	m_currentLife + life
 	if(m_currentLife <= 0):
 		m_currentLife = 0
-	emit_signal("OnDeath")
+		emit_signal("OnDeath")
+	elif(m_currentLife > 3):
+		m_currentLife = 3
 	emit_signal("OnLifeChanged", m_currentLife)
 	#Send info to life bar component
 	#Something to play a death animation... idk

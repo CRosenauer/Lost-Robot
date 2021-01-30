@@ -150,6 +150,10 @@ func OnRunEnd():
 	else:
 		SetState(STATES.LocomotionStates.Jump)
 
+func OnHitstun():
+	$StateTimer.stop()
+	SetState(STATES.LocomotionStates.HitStun)
+
 func CanSetXVelocity():
 	return GetState() == STATES.LocomotionStates.Grounded || GetState() == STATES.LocomotionStates.Run
 
