@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Enemies/Base/BaseEnemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Misc/WallCrawler2.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Misc/WallCrawler.png" type="Texture" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Enemies/Base/BaseEnemy.gd\"
@@ -30,6 +32,24 @@ func ChangeDirection():
 	scale.y = -1 * scale.y 
 "
 
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 3 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "Hop",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "Hopper",
+"speed": 5.0
+} ]
+
 [node name="WallCrawler" instance=ExtResource( 1 )]
 collision_layer = 24
 collision_mask = 24
@@ -42,5 +62,5 @@ position = Vector2( 8, 0 )
 position = Vector2( 16, 0 )
 
 [node name="AnimatedSprite" parent="." index="2"]
-animation = "wallCrawler"
+frames = SubResource( 2 )
 playing = true

@@ -59,5 +59,6 @@ script = SubResource( 1 )
 
 [node name="AnimatedSprite" parent="." index="2"]
 frames = SubResource( 2 )
+frame = 2
 playing = true
 [connection signal="area_entered" from="HitBox" to="." method="_on_HitBox_area_entered"]

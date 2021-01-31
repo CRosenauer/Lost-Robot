@@ -1,6 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Enemies/Base/BaseEnemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Misc/Floater.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Misc/Floater2.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Misc/Floater3.png" type="Texture" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Enemies/Base/BaseEnemy.gd\"
@@ -26,11 +29,30 @@ func _physics_process(delta):
 	m_velocity = move_and_slide(m_velocity)
 "
 
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "Hop",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "Hopper",
+"speed": 5.0
+} ]
+
 [node name="Floater" instance=ExtResource( 1 )]
 script = SubResource( 1 )
 
 [node name="AnimatedSprite" parent="." index="2"]
 position = Vector2( -1.90735e-06, 1.90735e-06 )
 scale = Vector2( 4, 4 )
+frames = SubResource( 2 )
 speed_scale = 0.5
 playing = true
