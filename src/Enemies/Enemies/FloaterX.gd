@@ -1,4 +1,4 @@
-extends "res://Enemies/Enemies/Floater.gd"
+extends "res://Enemies/Base/BaseEnemy.gd"
 
 
 func _physics_process(delta):

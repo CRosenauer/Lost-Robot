@@ -1,10 +1,44 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Enemies/Enemies/Floater.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Enemies/Enemies/FloaterX.gd" type="Script" id=2]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends \"res://Enemies/Base/BaseEnemy.gd\"
+
+
+export var Acceleration = 10
+export var MaxSpeed     = 800
+
+var m_velocity = Vector2()
+
+func _physics_process(delta):
+	
+	var directionToTravel = m_playerPosition - global_position
+	
+	m_velocity.y += directionToTravel.y * Acceleration * delta
+	
+	if(m_velocity.y > MaxSpeed):
+		m_velocity.y = MaxSpeed
+	elif(m_velocity.y < -MaxSpeed):
+		m_velocity.y = -MaxSpeed
+	
+	m_velocity = move_and_slide(m_velocity)
+"
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 24, 16 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 24, 24 )
 
 [node name="FloaterX" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+script = SubResource( 3 )
+
+[node name="HitBoxShape" parent="HitBox" index="0"]
+shape = SubResource( 1 )
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource( 2 )
 
 [node name="AnimatedSprite" parent="." index="2"]
 frame = 2
