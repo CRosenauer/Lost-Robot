@@ -18,6 +18,10 @@ func _process(_delta):
 	
 	#$LifeBar.global_position = $CameraComponent.global_position
 	#$CameraComponent.position.x += mod
+	
+	#Give player position to enemies
+	for i in $World/Enemies.get_children():
+		i.RecievePlayerPosition($World/IEntity.global_position)
 
 
 func _on_Timer_timeout():
