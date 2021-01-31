@@ -20,8 +20,9 @@ func _process(_delta):
 	#$CameraComponent.position.x += mod
 	
 	#Give player position to enemies
-	for i in $World/Enemies.get_children():
-		i.RecievePlayerPosition($World/IEntity.global_position)
+	if($World/Level.has_node("Enemies")):
+		for i in $World/Level/Enemies.get_children():
+			i.RecievePlayerPosition($World/IEntity.global_position)
 
 
 func _on_Timer_timeout():
