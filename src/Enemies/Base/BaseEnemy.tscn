@@ -50,11 +50,6 @@ animations = [ {
 "name": "New Anim 2",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 1 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "Ring 1",
-"speed": 15.0
-}, {
 "frames": [  ],
 "loop": true,
 "name": "New Anim 1",
@@ -64,6 +59,11 @@ animations = [ {
 "loop": true,
 "name": "Ring",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 1 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "Ring 1",
+"speed": 15.0
 } ]
 
 [node name="KinematicBody2D" type="KinematicBody2D"]
