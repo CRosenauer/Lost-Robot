@@ -33,3 +33,6 @@ func _on_Timer_timeout():
 
 func _on_IEntity_OnDeath():
 	$RespawnTimer.start()
+
+func _on_powerUpUnlocked(ability):
+	pass
