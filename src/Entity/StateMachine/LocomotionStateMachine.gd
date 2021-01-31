@@ -69,6 +69,8 @@ func OnGrounded():
 	SetState(STATES.LocomotionStates.Grounded)
 
 func OnIsOnFloor(value):
+	if(m_isOnFloor && !value && GetState() != STATES.LocomotionStates.Jump):
+		$CoyoteTime.start()
 	m_isOnFloor = value
 	if(m_isOnFloor):
 		OnGrounded()
@@ -87,7 +89,7 @@ func OnDirectionChange(nDirection):
 	m_direction = nDirection
 
 func CanJump(inputArr, edgeArr):
-	return !m_disabledAbilities[ABILITIES.Jump] && (GetState() == STATES.LocomotionStates.Grounded || GetState() == STATES.LocomotionStates.Run) && (edgeArr[INPUTS.Input_Jump] == 1)
+	return !m_disabledAbilities[ABILITIES.Jump] && (GetState() == STATES.LocomotionStates.Grounded || GetState() == STATES.LocomotionStates.Run || !$CoyoteTime.is_stopped()) && (edgeArr[INPUTS.Input_Jump] == 1)
 
 func CanDoubleJump(inputArr, edgeArr):
 	if !m_disabledAbilities[ABILITIES.DoubleJump]:
@@ -117,6 +119,7 @@ func IsPressingOppositeDirection(inputArr):
 
 func OnJump():
 	SetState(STATES.LocomotionStates.Jump)
+	$CoyoteTime.stop()
 
 func OnDoubleJump():
 	m_usedDoubleJump = true
