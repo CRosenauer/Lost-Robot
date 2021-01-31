@@ -41,12 +41,12 @@ animations = [ {
 }, {
 "frames": [  ],
 "loop": true,
-"name": "Hop",
+"name": "Hopper",
 "speed": 5.0
 }, {
 "frames": [  ],
 "loop": true,
-"name": "Hopper",
+"name": "Hop",
 "speed": 5.0
 } ]
 
