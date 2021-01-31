@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Levels/Chris Stuff/TutorialRoom.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Levels/PC/1-1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Entity/Characters/Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Entity/Components/CameraComponent.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Levels/Test/TestLevel.gd" type="Script" id=4]
@@ -14,6 +14,7 @@ script = ExtResource( 4 )
 [node name="World" type="Node2D" parent="."]
 
 [node name="Level" parent="World" instance=ExtResource( 1 )]
+tile_data = PoolIntArray( 22, 2, 0, 23, 2, 0, 65539, 2, 0, 65540, 2, 0, 65541, 2, 0, 65542, 2, 0, 65543, 2, 0, 65544, 2, 0, 65545, 2, 0, 65546, 2, 0, 65547, 2, 0, 65548, 2, 0, 65549, 2, 0, 65550, 2, 0, 65551, 2, 0, 65552, 2, 0, 65553, 2, 0, 65554, 2, 0, 65555, 2, 0, 65556, 2, 0, 65557, 2, 0, 65558, 2, 0, 65559, 2, 0, 65560, 2, 0, 65561, 2, 0, 65562, 2, 0, 65563, 2, 0, 65580, 2, 0, 131075, 2, 0, 131116, 2, 0, 196611, 2, 0, 196652, 2, 0, 262147, 2, 0, 262188, 2, 0, 327683, 2, 0, 327724, 2, 0, 393219, 2, 0, 393260, 2, 0, 458755, 2, 0, 458796, 2, 0, 524291, 2, 0, 524332, 2, 0, 589827, 2, 0, 589868, 2, 0, 655363, 2, 0, 655404, 2, 0, 720899, 2, 0, 720940, 2, 0, 786435, 2, 0, 786476, 2, 0, 851971, 2, 0, 852012, 2, 0, 917507, 2, 0, 917548, 2, 0, 983043, 2, 0, 983044, 2, 0, 983045, 2, 0, 983046, 2, 0, 983047, 2, 0, 983048, 2, 0, 983049, 2, 0, 983050, 2, 0, 983051, 2, 0, 983052, 2, 0, 983053, 2, 0, 983054, 2, 0, 983055, 2, 0, 983056, 2, 0, 983057, 2, 0, 983058, 2, 0, 983059, 2, 0, 983060, 2, 0, 983061, 2, 0, 983062, 2, 0, 983063, 2, 0, 983064, 2, 0, 983065, 2, 0, 983066, 2, 0, 983084, 2, 0, 1048602, 2, 0, 1048620, 2, 0, 1114138, 2, 0, 1114156, 2, 0, 1179674, 2, 0, 1179692, 2, 0, 1245210, 2, 0, 1245228, 2, 0, 1310746, 2, 0, 1310764, 2, 0, 1376282, 2, 0, 1376300, 2, 0, 1441818, 2, 0, 1441836, 2, 0, 1507354, 2, 0, 1507372, 2, 0 )
 
 [node name="IEntity" parent="World" instance=ExtResource( 2 )]
 position = Vector2( 784, 768 )
@@ -40,7 +41,6 @@ __meta__ = {
 [node name="LifeSystem" parent="Systems" instance=ExtResource( 6 )]
 
 [node name="CheckpointSystem" parent="Systems" instance=ExtResource( 7 )]
-[connection signal="PowerUpUnlocked" from="World/Level" to="." method="_on_Level_PowerUpUnlocked"]
 [connection signal="OnDeath" from="World/IEntity" to="." method="_on_IEntity_OnDeath"]
 [connection signal="OnLifeChanged" from="World/IEntity" to="." method="_on_IEntity_OnLifeChanged"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_Timer_timeout"]
