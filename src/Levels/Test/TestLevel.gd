@@ -1,6 +1,6 @@
 extends Node2D
 
-export var VelocityScale = 200
+export var VelocityScale = 256
 export var SpeedModConstraint = 250
 
 func _ready():
@@ -19,6 +19,7 @@ func _process(_delta):
 	#	mod = -SpeedModConstraint
 	
 	$CameraComponent.position.x += mod
+	#$CameraComponent.position.y -= 64
 	
 	#Give player position to enemies
 	if($World/Level.has_node("Enemies")):
