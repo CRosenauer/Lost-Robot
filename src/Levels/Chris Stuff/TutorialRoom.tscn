@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Assets/Temp/TextureScaled.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/Enemies/Roller.tscn" type="PackedScene" id=2]
@@ -8,6 +8,10 @@
 [ext_resource path="res://Enemies/Enemies/Floater.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Misc/PowerUps/AirDash.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Misc/PowerUps/DoubleJump.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Assets/Tutorial/Tutorial1.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Tutorial/TutorialPlus.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Tutorial/Tutorial2.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Tutorial/Tutorial3.png" type="Texture" id=12]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
@@ -192,7 +196,7 @@ __meta__ = {
 position = Vector2( 3816, 808 )
 
 [node name="Roller3" parent="Enemies" instance=ExtResource( 2 )]
-position = Vector2( 9960, 4008 )
+position = Vector2( 9952, 4064 )
 
 [node name="Roller4" parent="Enemies" instance=ExtResource( 2 )]
 position = Vector2( 11880, 4904 )
@@ -286,5 +290,30 @@ position = Vector2( 20608, -2656 )
 
 [node name="DoubleJump" parent="." instance=ExtResource( 8 )]
 position = Vector2( 28960, -5664 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 5448, 336 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 9 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 2296, 440 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 11 )
+
+[node name="Sprite3" type="Sprite" parent="."]
+position = Vector2( 800, 336 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 9 )
+
+[node name="Sprite4" type="Sprite" parent="."]
+position = Vector2( 5864, 312 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 10 )
+
+[node name="Sprite5" type="Sprite" parent="."]
+position = Vector2( 6192, 312 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 12 )
 [connection signal="PowerUpUnlocked" from="WallJump" to="." method="_on_WallJump_PowerUpUnlocked"]
 [connection signal="PowerUpUnlocked" from="AirDash" to="." method="_on_WallJump_PowerUpUnlocked"]
