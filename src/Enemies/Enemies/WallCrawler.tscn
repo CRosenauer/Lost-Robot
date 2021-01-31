@@ -1,12 +1,39 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Enemies/Base/BaseEnemy.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Enemies/Enemies/WallCrawler.gd" type="Script" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends \"res://Enemies/Base/BaseEnemy.gd\"
+
+
+export var MoveSpeed = 150
+
+var m_velocity = Vector2(0, MoveSpeed)
+
+func _physics_process(delta):
+	
+	move_and_slide(m_velocity, PHYSICS.UP)
+	
+	if(is_on_floor() != m_wasOnFloor):
+		m_wasOnFloor = !m_wasOnFloor
+		if(m_wasOnFloor):
+			ChangeDirection()
+	
+	if(is_on_ceiling() != m_wasOnCeiling):
+		m_wasOnCeiling = !m_wasOnCeiling
+		if(m_wasOnCeiling):
+			ChangeDirection()
+
+
+func ChangeDirection():
+	m_velocity.y = -m_velocity.y
+	scale.y = -1 * scale.y 
+"
 
 [node name="WallCrawler" instance=ExtResource( 1 )]
 collision_layer = 24
 collision_mask = 24
-script = ExtResource( 2 )
+script = SubResource( 1 )
 
 [node name="HitBoxShape" parent="HitBox" index="0"]
 position = Vector2( 8, 0 )

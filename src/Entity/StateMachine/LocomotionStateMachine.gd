@@ -79,7 +79,8 @@ func OnIsOnFloor(value):
 
 func OnIsOnWall(value):
 	m_isOnWall = value
-	m_direction = sign(m_lastKnownVelocity)
+	if(GetState() != STATES.LocomotionStates.PreWallJump):
+		m_direction = sign(m_lastKnownVelocity)
 	if(!m_isOnWall && !m_isOnFloor):
 		SetTimer(WallJumpTime, "ResetWallJumpParams")
 	#	m_currentState = STATES.LocomotionStates.Jump
