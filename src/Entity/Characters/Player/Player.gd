@@ -41,9 +41,9 @@ export var AirDrag            = 4
 func _ready():
 	LockAbilities(ABILITIES.Jump, false)
 	LockAbilities(ABILITIES.Run, false)
-	#LockAbilities(ABILITIES.DoubleJump, false)
-	#LockAbilities(ABILITIES.WallJump, false)
-	#LockAbilities(ABILITIES.AirDash, false)
+	LockAbilities(ABILITIES.DoubleJump, false)
+	LockAbilities(ABILITIES.WallJump, false)
+	LockAbilities(ABILITIES.AirDash, false)
 
 func _physics_process(_delta):
 	$Components/InputComponent.QueryInputs()
