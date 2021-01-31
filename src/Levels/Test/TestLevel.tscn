@@ -21,6 +21,7 @@ position = Vector2( 464, 448 )
 [node name="CameraComponent" parent="." instance=ExtResource( 3 )]
 position = Vector2( 464, 448 )
 zoom = Vector2( 1.4, 1.4 )
+smoothing_enabled = true
 smoothing_speed = 6.0
 
 [node name="RespawnTimer" type="Timer" parent="."]

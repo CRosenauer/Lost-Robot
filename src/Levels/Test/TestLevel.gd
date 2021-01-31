@@ -9,15 +9,16 @@ func _ready():
 func _process(_delta):
 	$CameraComponent.position    = $World/IEntity.position
 	
-	var mod = $World/IEntity.m_velocity.x * VelocityScale
+	#var mod = $World/IEntity.m_velocity.x * VelocityScale
 	
-	if(mod > SpeedModConstraint):
-		mod = SpeedModConstraint
-	elif(mod < -SpeedModConstraint):
-		mod = -SpeedModConstraint
+	var mod = $World/IEntity.GetDirection() * VelocityScale
 	
-	#$LifeBar.global_position = $CameraComponent.global_position
-	#$CameraComponent.position.x += mod
+	#if(mod > SpeedModConstraint):
+	#	mod = SpeedModConstraint
+	#elif(mod < -SpeedModConstraint):
+	#	mod = -SpeedModConstraint
+	
+	$CameraComponent.position.x += mod
 	
 	#Give player position to enemies
 	if($World/Level.has_node("Enemies")):
