@@ -26,9 +26,10 @@ func _process(_delta):
 
 
 func _on_Timer_timeout():
-	$World/IEntity.position = $Systems/CheckpointSystem.GetCheckPoint()
+	$World/IEntity.position = $Systems/CheckpointSystem.GetCheckpoint()
 	$World/IEntity.GainLife(3)
 	$World/IEntity/Components/AnimatedComponent.visible = true
+	$World/IEntity/Components/HitBoxComponent/HitBoxShape.disabled = false
 
 
 func _on_IEntity_OnDeath():
@@ -36,3 +37,7 @@ func _on_IEntity_OnDeath():
 
 func _on_powerUpUnlocked(ability):
 	pass
+
+
+func _on_IEntity_OnLifeChanged(m_currentLife):
+	$Hud/LifeBar.SetLife(m_currentLife)

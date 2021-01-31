@@ -16,7 +16,7 @@ script = ExtResource( 4 )
 [node name="Level" parent="World" instance=ExtResource( 1 )]
 
 [node name="IEntity" parent="World" instance=ExtResource( 2 )]
-position = Vector2( 440, 448 )
+position = Vector2( 456, 448 )
 
 [node name="CameraComponent" parent="." instance=ExtResource( 3 )]
 position = Vector2( 352, 312 )
@@ -24,6 +24,8 @@ zoom = Vector2( 1.4, 1.4 )
 smoothing_speed = 6.0
 
 [node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
 
 [node name="Hud" type="CanvasLayer" parent="."]
 
@@ -38,4 +40,5 @@ __meta__ = {
 
 [node name="CheckpointSystem" parent="Systems" instance=ExtResource( 7 )]
 [connection signal="OnDeath" from="World/IEntity" to="." method="_on_IEntity_OnDeath"]
+[connection signal="OnLifeChanged" from="World/IEntity" to="." method="_on_IEntity_OnLifeChanged"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_Timer_timeout"]

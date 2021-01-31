@@ -41,7 +41,7 @@ export var AirDrag            = 4
 func _ready():
 	LockAbilities(ABILITIES.Jump, false)
 	LockAbilities(ABILITIES.Run, false)
-	LockAbilities(ABILITIES.DoubleJump, false)
+	#LockAbilities(ABILITIES.DoubleJump, false)
 	LockAbilities(ABILITIES.WallJump, false)
 	LockAbilities(ABILITIES.AirDash, false)
 
@@ -164,10 +164,10 @@ func _on_HitBoxComponent_area_entered(_area):
 	$LocomotionStateMachine.OnHitstun()
 
 func GainLife(life):
-	m_currentLife + life
+	m_currentLife += life
 	if(m_currentLife <= 0):
 		m_currentLife = 0
-		emit_signal("Death")
+		OnDeath()
 		$Components/AnimatedComponent.visible = false
 	elif(m_currentLife > 3):
 		m_currentLife = 3
@@ -176,4 +176,6 @@ func GainLife(life):
 	#Something to play a death animation... idk
 
 func OnDeath():
-	pass
+	$Components/HitBoxComponent/HitBoxShape.set_deferred("disabled", true)
+	$Components/AnimatedComponent.visible = false
+	emit_signal("OnDeath")
