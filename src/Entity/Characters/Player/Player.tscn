@@ -58,7 +58,7 @@ animations = [ {
 extents = Vector2( 16, 56 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 24, 64 )
+extents = Vector2( 24, 56 )
 
 [node name="IEntity" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -75,6 +75,9 @@ defaultAnimation = "Idle"
 
 [node name="HitBoxShape" type="CollisionShape2D" parent="Components/HitBoxComponent" index="0"]
 shape = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="AudioComponent" parent="Components" index="3" instance=ExtResource( 13 )]
 
@@ -87,6 +90,7 @@ stream = ExtResource( 14 )
 [node name="LocomotionStateMachine" parent="." index="1" instance=ExtResource( 5 )]
 
 [node name="CollisionShape" type="CollisionShape2D" parent="." index="2"]
+position = Vector2( 0, 8 )
 shape = SubResource( 3 )
 [connection signal="area_entered" from="Components/HitBoxComponent" to="." method="_on_HitBoxComponent_area_entered"]
 [connection signal="OnStateChanged" from="LocomotionStateMachine" to="." method="_on_locomotion_stateChanged"]

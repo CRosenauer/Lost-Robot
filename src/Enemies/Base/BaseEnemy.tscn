@@ -31,7 +31,7 @@ func PlayAnimation(name):
 extents = Vector2( 16, 16 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 24, 24 )
+extents = Vector2( 8, 24 )
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
@@ -47,11 +47,6 @@ animations = [ {
 }, {
 "frames": [  ],
 "loop": true,
-"name": "Ring",
-"speed": 5.0
-}, {
-"frames": [  ],
-"loop": true,
 "name": "New Anim 2",
 "speed": 5.0
 }, {
@@ -63,6 +58,11 @@ animations = [ {
 "frames": [  ],
 "loop": true,
 "name": "New Anim 1",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "Ring",
 "speed": 5.0
 } ]
 
