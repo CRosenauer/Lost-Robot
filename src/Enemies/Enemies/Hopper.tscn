@@ -1,0 +1,77 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Enemies/Base/BaseEnemy.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Misc/Jumper1.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Misc/Jumper2.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends \"res://Enemies/Base/BaseEnemy.gd\"
+
+
+export var JumpSpeed = Vector2(400, -2000)
+export var MaxMoveSpeed  = 2000
+
+var m_velocity = Vector2()
+
+func _physics_process(delta):
+	
+	move_and_slide(m_velocity, PHYSICS.UP)
+	
+	if(is_on_wall()):
+		m_velocity.x = -m_velocity.x
+		scale.x = -1
+	
+	if(is_on_floor()):
+		$AnimatedSprite.play(\"Hopper\")
+		m_velocity = Vector2()
+		$HitBox.position = Vector2()
+		if($Timer.is_stopped()):
+			$Timer.start()
+	else:
+		m_velocity.y -= PHYSICS.GRAVITY * delta * 1000
+		if m_velocity.y > MaxMoveSpeed:
+			m_velocity.y = MaxMoveSpeed
+
+
+func _on_Timer_timeout():
+	m_velocity = JumpSpeed
+	m_velocity.x = m_velocity.x * cos( rotation_degrees * PI / 180 )
+	position.y -= 128
+	$AnimatedSprite.play(\"Hop\")
+	$HitBox.position.x += 16
+"
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [  ],
+"loop": true,
+"name": "New Anim",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "Hop",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "Hopper",
+"speed": 5.0
+} ]
+
+[node name="Hopper" instance=ExtResource( 1 )]
+script = SubResource( 1 )
+
+[node name="AnimatedSprite" parent="." index="2"]
+position = Vector2( -24, -24 )
+frames = SubResource( 2 )
+animation = "Hopper"
+
+[node name="Timer" type="Timer" parent="." index="3"]
+one_shot = true
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

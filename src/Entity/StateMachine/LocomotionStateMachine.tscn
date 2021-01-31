@@ -5,3 +5,7 @@
 
 [node name="LocomotionStateMachine" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+
+[node name="CoyoteTime" type="Timer" parent="." index="1"]
+wait_time = 0.15
+one_shot = true
