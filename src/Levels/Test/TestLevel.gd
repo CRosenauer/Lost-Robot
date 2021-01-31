@@ -38,8 +38,12 @@ func _on_IEntity_OnDeath():
 	$RespawnTimer.start()
 
 func _on_powerUpUnlocked(ability):
-	pass
+	$World/IEntity.LockAbilities(ability, false)
 
 
 func _on_IEntity_OnLifeChanged(m_currentLife):
 	$Hud/LifeBar.SetLife(m_currentLife)
+
+
+func _on_Level_PowerUpUnlocked(ability):
+	_on_powerUpUnlocked(ability)
