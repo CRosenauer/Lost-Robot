@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Assets/Temp/TextureScaled.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/Enemies/Roller.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Assets/Tutorial/TutorialPlus.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Tutorial/Tutorial2.png" type="Texture" id=11]
 [ext_resource path="res://Assets/Tutorial/Tutorial3.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Tutorial/Arrow.png" type="Texture" id=13]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
@@ -315,5 +316,36 @@ texture = ExtResource( 10 )
 position = Vector2( 6192, 312 )
 scale = Vector2( 8, 8 )
 texture = ExtResource( 12 )
+
+[node name="Sprite6" type="Sprite" parent="."]
+position = Vector2( 15744, 2376 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 12 )
+
+[node name="Sprite7" type="Sprite" parent="."]
+position = Vector2( 15808, 2232 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 10 )
+
+[node name="Sprite8" type="Sprite" parent="."]
+position = Vector2( 15672, 2232 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 13 )
+
+[node name="Sprite9" type="Sprite" parent="."]
+position = Vector2( 20592, -3160 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 11 )
+
+[node name="Sprite10" type="Sprite" parent="."]
+position = Vector2( 20616, -3016 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 10 )
+
+[node name="Sprite11" type="Sprite" parent="."]
+position = Vector2( 20616, -2872 )
+scale = Vector2( 8, 8 )
+texture = ExtResource( 12 )
 [connection signal="PowerUpUnlocked" from="WallJump" to="." method="_on_WallJump_PowerUpUnlocked"]
 [connection signal="PowerUpUnlocked" from="AirDash" to="." method="_on_WallJump_PowerUpUnlocked"]
+[connection signal="PowerUpUnlocked" from="DoubleJump" to="." method="_on_WallJump_PowerUpUnlocked"]

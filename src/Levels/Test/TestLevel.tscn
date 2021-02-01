@@ -41,6 +41,7 @@ __meta__ = {
 [node name="LifeSystem" parent="Systems" instance=ExtResource( 6 )]
 
 [node name="CheckpointSystem" parent="Systems" instance=ExtResource( 7 )]
+[connection signal="PowerUpUnlocked" from="World/Level" to="." method="_on_Level_PowerUpUnlocked"]
 [connection signal="OnDeath" from="World/IEntity" to="." method="_on_IEntity_OnDeath"]
 [connection signal="OnLifeChanged" from="World/IEntity" to="." method="_on_IEntity_OnLifeChanged"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_Timer_timeout"]
