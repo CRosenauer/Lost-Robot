@@ -292,17 +292,17 @@ collision_layer = 24
 collision_mask = 16
 
 [node name="WallCrawler4" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 3296, 1112 )
+position = Vector2( 3288, 1112 )
 scale = Vector2( -1, 1 )
 
 [node name="WallCrawler3" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 3480, -488 )
+position = Vector2( 3496, -488 )
 
 [node name="WallCrawler2" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 3480, -3224 )
+position = Vector2( 3496, -3224 )
 
 [node name="WallCrawler" parent="Enemies" instance=ExtResource( 4 )]
-position = Vector2( 3296, -2400 )
+position = Vector2( 3288, -2400 )
 scale = Vector2( -1, 1 )
 
 [node name="Roller3" parent="Enemies" instance=ExtResource( 3 )]
