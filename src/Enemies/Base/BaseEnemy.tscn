@@ -40,9 +40,9 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 3 ), ExtResource( 2 ) ],
+"frames": [  ],
 "loop": true,
-"name": "wallCrawler",
+"name": "Ring",
 "speed": 5.0
 }, {
 "frames": [  ],
@@ -60,9 +60,9 @@ animations = [ {
 "name": "New Anim 1",
 "speed": 5.0
 }, {
-"frames": [  ],
+"frames": [ ExtResource( 3 ), ExtResource( 2 ) ],
 "loop": true,
-"name": "Ring",
+"name": "wallCrawler",
 "speed": 5.0
 } ]
 

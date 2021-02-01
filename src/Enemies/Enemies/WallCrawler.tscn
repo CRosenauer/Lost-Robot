@@ -4,7 +4,7 @@
 [ext_resource path="res://Assets/Misc/WallCrawler2.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Misc/WallCrawler.png" type="Texture" id=3]
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Enemies/Base/BaseEnemy.gd\"
 
 
@@ -41,19 +41,19 @@ animations = [ {
 }, {
 "frames": [  ],
 "loop": true,
-"name": "Hop",
+"name": "Hopper",
 "speed": 5.0
 }, {
 "frames": [  ],
 "loop": true,
-"name": "Hopper",
+"name": "Hop",
 "speed": 5.0
 } ]
 
 [node name="WallCrawler" instance=ExtResource( 1 )]
 collision_layer = 24
 collision_mask = 24
-script = SubResource( 3 )
+script = SubResource( 1 )
 
 [node name="HitBoxShape" parent="HitBox" index="0"]
 position = Vector2( 8, 0 )
