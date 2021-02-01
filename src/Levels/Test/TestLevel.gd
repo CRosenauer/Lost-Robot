@@ -18,7 +18,7 @@ func _process(_delta):
 	#elif(mod < -SpeedModConstraint):
 	#	mod = -SpeedModConstraint
 	
-	$CameraComponent.position.x += mod
+	#$CameraComponent.position.x += mod
 	#$CameraComponent.position.y -= 64
 	
 	#Give player position to enemies
